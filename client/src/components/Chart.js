@@ -1,44 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import '../App.css';
-import WeekMenu from './WeekMenu'
-import UpdateButton from './UpdateButton'
 
 function Chart() {
-  const [currChart, setCurrChart] = useState(0);
+  const [currChart, setCurrChart] = useState();
   const [chartType, setChartType] = useState(0);
-  const [currWeek, setCurrWeek] = useState(0);
-  const [currChartHTML, setCurrChartHTML] = useState();
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    
-    const fetchData = async () => {
-      setTimeout(async () => {
-        try {
-          const weekData = await fetch(`/chart?chartNum=${currWeek}&chartType=${chartType}`,
-            { signal: abortController.signal });
-          const chartHTML = await weekData.text();
-          setCurrChartHTML(chartHTML);
-          } catch (error) {
-            if(error.name === 'AbortError') {
-              // no error
-            } else {
-              console.error();
-            }
-          }
-      }, Math.round(Math.random() * 100))
-    }
-
-    fetchData();
-
-    return () => {
-      abortController.abort();
-    };
-  }, [currWeek, chartType]);
 
   function getChart(event) {
+    // for some reason pastebins are private from 192-196, albums get weird starting at 197
     event.preventDefault();
-    let fetchURL = "/chart?chartNum=" + currChart + "&chartType=" + chartType;
+    let weeksBack = event.target[0].value;
+    let fetchURL = "/chart?weeksBack=" + weeksBack + "&chartType=" + chartType;
     fetch(fetchURL)
       .then(res => res.text())
       .then(res => setCurrChart(res))
@@ -54,7 +25,17 @@ function Chart() {
       <h1 className="section-title">Popheads Chart</h1>
       <section>
         <form onSubmit={getChart}>
-          <WeekMenu currWeek = {currWeek} setCurrWeek = {setCurrWeek}/>
+          <label>
+            Weeks Back (up to 262, gets weird after 191):
+          </label>
+            <input
+              type="number" 
+              defaultValue="0"
+              min="0"
+              max="262"
+              maxLength="3"
+              style={{width: "2.5rem"}}
+            />
             <br />
             <input 
               type="radio"
@@ -77,9 +58,9 @@ function Chart() {
               onChange={handleChange}
             />Get ALL Songs (warning: experimental)
           <br />
-          <UpdateButton />
+          <input className="button" type="submit" value="Get Chart!" />
         </form>
-        <div dangerouslySetInnerHTML={{__html:currChartHTML}}></div>
+        <div dangerouslySetInnerHTML={{__html:currChart}}></div>
       </section>
     </section>
   )

@@ -52,7 +52,7 @@ table {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-.fancy-button {
+.button {
   min-width: 100px;
   min-height: 20px;
   font-size: 22px;
@@ -70,8 +70,6 @@ table {
   outline: none;
   position: relative;
   padding: 10px;
-  padding-left: 25px;
-  padding-right: 25px;
   margin-top: 20px;
   margin-bottom: 25px;
 }
