@@ -1,6 +1,7 @@
 import Artist from './Artist'
 import Chart from './Chart'
 import ToggleButton from './ToggleButton'
+import UpdateButton from './UpdateButton'
 import React, { Fragment, useState } from "react";
 
 function Home() {
@@ -8,6 +9,7 @@ function Home() {
   return (
     <>
       <ToggleButton mode = {mode} setMode = {setMode} />
+      <br />
       {mode === 0 && <Chart/>}
       {mode === 1 && <Artist/>}
     </>
