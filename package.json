@@ -1,0 +1,22 @@
+{
+  "name": "popheads-chart",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node API.js",
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "client": "cd client && npm start",
+    "server": "node API.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cross-fetch": "^3.1.5",
+    "express": "^4.18.1",
+    "multer": "^1.4.5-lts.1",
+    "path": "^0.12.7",
+    "snoowrap": "^1.23.0"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.2"
+  }
+}
