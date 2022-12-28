@@ -1,6 +1,7 @@
 {
   "name": "popheads-chart",
   "version": "1.0.0",
+  "main": "./API.js",
   "scripts": {
     "start": "node API.js",
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
@@ -11,12 +12,20 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "cross-fetch": "^3.1.5",
+    "date-and-time": "^2.4.1",
     "express": "^4.18.1",
+    "firebase": "^9.9.1",
+    "firebase-admin": "^11.0.0",
+    "fs": "^0.0.1-security",
+    "mongoose": "^6.5.0",
     "multer": "^1.4.5-lts.1",
     "path": "^0.12.7",
+    "react-scripts": "^5.0.1",
     "snoowrap": "^1.23.0"
   },
   "devDependencies": {
-    "concurrently": "^4.1.2"
+    "concurrently": "^4.1.2",
+    "netlify-cli": "^12.5.0",
+    "nodemon": "^2.0.19"
   }
 }
