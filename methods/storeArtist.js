@@ -7,19 +7,22 @@
  */
 "use strict";
 
-async function CSVtoArray(currChartHTML, artist, artistName) {
+const ArtistModel = require('../models/Artist');
+
+async function storeArtist(currChartHTML, ticker, artistName, index) {
   let leaderboard = new Map();
   let rows = currChartHTML.match(/\n(\d)*|.*\n/g);
   let artistData = {
     "artist": artistName,
-    "ticker": artist,
+    "ticker": ticker,
     "numSongs": 0,
     "songs": [],
     "points": 0,
     "numberOnes": 0,
     "listeners": 0
   };
-  for (let i = 0; i < rows.length; i++) {
+  console.log(rows);
+  for (let i = 0; i < rows.length - 1; i++) {
     let rowData = rows[i].split("|");
     let currPosition = rowData[0];
     let currEntry = rowData[1];
@@ -43,9 +46,20 @@ async function CSVtoArray(currChartHTML, artist, artistName) {
       //leaderboard.set(currArtist, 1);
     }*/
   }
+  console.log(artistData);
   // let sorted_map_by_num_values = new Map([...leaderboard].sort((a, b) => a[1] - b[1]))
   // console.log(sorted_map_by_num_values);
   artistData.numSongs = artistData.songs.length;
+  const artist = new ArtistModel({ 
+    tickerindex: ticker + index,
+    ticker: ticker,
+    name: artistName,
+    currentPoints: artistData.points,
+    currentNumberOnes: artistData.numberOnes,
+    currentListeners: artistData.listeners,
+    songs: artistData.songs
+  });
+  artist.save();
   return artistData;
 }
-exports.CSVtoArray = CSVtoArray;
+exports.storeArtist = storeArtist;

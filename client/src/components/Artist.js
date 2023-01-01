@@ -4,6 +4,7 @@ import Menu from "./Menu";
 
 function Artist() {
   const [currArtist, setCurrArtist] = useState("XCX");
+  const [currIndex, setCurrIndex] = useState(286);
   const [currArtistData, setCurrArtistData] = useState();
 
   useEffect(() => {
@@ -12,7 +13,7 @@ function Artist() {
     const fetchData = async () => {
       setTimeout(async () => {
         try {
-          const artistData = await fetch(`/getArtistStats?artist=${currArtist}`,
+          const artistData = await fetch(`/getArtistStats?ticker=${currArtist}&index=${currIndex}`,
             { signal: abortController.signal });
           const artistJSON = await artistData.json();
           setCurrArtistData(artistJSON);
@@ -43,10 +44,10 @@ function Artist() {
         <section id="artist-profile">
           <ul>
             <li>Ticker: {currArtistData.ticker}</li>
-            <li>Total Songs: {currArtistData.numSongs}</li>
-            <li>Total Points: {currArtistData.points}</li>
-            <li>Total Number Ones: {currArtistData.numberOnes}</li>
-            <li>Total Listeners: {currArtistData.listeners}</li>
+            <li>Total Songs: {currArtistData.songs.length}</li>
+            <li>Total Points: {currArtistData.currentPoints}</li>
+            <li>Total Number Ones: {currArtistData.currentNumberOnes}</li>
+            <li>Total Listeners: {currArtistData.currentListeners}</li>
           </ul>
         </section>
         <section id="top-songs">

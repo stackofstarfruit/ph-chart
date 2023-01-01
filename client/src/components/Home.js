@@ -1,7 +1,6 @@
 import Artist from './Artist'
 import Chart from './Chart'
 import ToggleButton from './ToggleButton'
-import UpdateButton from './UpdateButton'
 import React, { Fragment, useState } from "react";
 
 function Home() {

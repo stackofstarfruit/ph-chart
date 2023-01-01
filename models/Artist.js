@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const artist = new mongoose.Schema({
+  tickerindex: {
+    type: String,
+    unique: true,
+    required: true
+  },
   ticker: {
     type: String,
     required: true,
@@ -11,7 +16,7 @@ const artist = new mongoose.Schema({
   },
   currentRank: {
     type: Number,
-    required: true,
+    required: false,
   },
   currentPoints: {
     type: Number,
@@ -23,6 +28,10 @@ const artist = new mongoose.Schema({
   },
   currentListeners: {
     type: Number,
+    required: true,
+  },
+  songs: {
+    type: Array,
     required: true,
   },
   lastFiveWeeks: {
