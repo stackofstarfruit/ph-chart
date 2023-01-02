@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import '../App.css';
 import Menu from "./Menu";
 
-function Artist(currWeek) {
+function Artist() {
   const [currArtist, setCurrArtist] = useState("XCX");
+  const [currIndex, setCurrIndex] = useState(286);
   const [currArtistData, setCurrArtistData] = useState();
 
   useEffect(() => {
@@ -12,7 +13,7 @@ function Artist(currWeek) {
     const fetchData = async () => {
       setTimeout(async () => {
         try {
-          const artistData = await fetch(`/getArtistStats?ticker=${currArtist}&index=${currWeek}`,
+          const artistData = await fetch(`/getArtistStats?ticker=${currArtist}&index=${currIndex}`,
             { signal: abortController.signal });
           const artistJSON = await artistData.json();
           setCurrArtistData(artistJSON);
@@ -31,7 +32,7 @@ function Artist(currWeek) {
     return () => {
       abortController.abort();
     };
-  }, [currArtist, currWeek]);
+  }, [currArtist]);
 
   return (
     <section id="artist-view">
