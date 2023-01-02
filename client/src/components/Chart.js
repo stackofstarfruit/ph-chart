@@ -3,10 +3,9 @@ import '../App.css';
 import WeekMenu from './WeekMenu'
 import UpdateButton from './UpdateButton'
 
-function Chart() {
+function Chart(currWeek) {
   const [currChart, setCurrChart] = useState(0);
   const [chartType, setChartType] = useState(0);
-  const [currWeek, setCurrWeek] = useState(0);
   const [currChartHTML, setCurrChartHTML] = useState();
 
   useEffect(() => {
@@ -51,10 +50,9 @@ function Chart() {
 
   return (
     <section id="chart-view">
-      <h1 className="section-title">Popheads Chart</h1>
       <section>
         <form onSubmit={getChart}>
-          <WeekMenu currWeek = {currWeek} setCurrWeek = {setCurrWeek}/>
+          
             <br />
             <input 
               type="radio"
