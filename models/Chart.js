@@ -36,6 +36,18 @@ const chart = new mongoose.Schema({
   albumData: {
     type: String,
     required: false
+  },
+  fullChart: {
+    type: Array,
+    required: false
+  },
+  fullChartHTML: {
+    type: String,
+    required: false
+  },
+  artists: {
+    type: Array,
+    required: false
   }
 })
 

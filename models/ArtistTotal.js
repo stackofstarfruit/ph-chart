@@ -1,40 +1,43 @@
 const mongoose = require('mongoose');
 
 const artist = new mongoose.Schema({
-  nameindex: {
+  ticker: {
     type: String,
-    required: true,
-    unique: true,
-  },
-  index: {
-    type: Number,
     required: true,
   },
   name: {
     type: String,
     required: true,
   },
-  currentRank: {
+  rank: {
     type: Number,
     required: false,
   },
-  currentPoints: {
+  totalPoints: {
     type: Number,
     required: true,
   },
-  currentNumberOnes: {
+  totalNumberOnes: {
     type: Number,
     required: true,
   },
-  currentListeners: {
+  totalListeners: {
     type: Number,
     required: true,
   },
-  songs: {
+  pointsByWeek: {
+    type: Array,
+    required: true,
+  },
+  numberOnesByWeek: {
+    type: Array,
+    required: true,
+  },
+  listenersByWeek: {
     type: Array,
     required: true,
   }
 })
 
-const Artist = mongoose.model("Artist", artist)
-module.exports = Artist;
+const ArtistTotal = mongoose.model("ArtistTotals", artist)
+module.exports = ArtistTotal;

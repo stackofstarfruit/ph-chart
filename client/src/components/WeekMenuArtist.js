@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 
 function WeekMenu({currWeek, setCurrWeek}) {
 
-  const [weekData, setWeekData] = useState([{ label: 'Mon Dec 26 2022', value: 287 }]);
+  const [weekData, setWeekData] = useState([{ label: 'Mon Jun 26 2017', value: 0 }]);
   useEffect(() => {
-    fetch("/weeks")
+    fetch("/weeks?type=artist")
       .then(res => res.json())
       .then(res => res.reverse())
       .then(res => {setWeekData(res)})

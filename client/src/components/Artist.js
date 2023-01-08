@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import '../App.css';
-import Menu from "./Menu";
+import ArtistMenu from "./ArtistMenu";
+import WeekMenuArtist from "./WeekMenuArtist";
 
 function Artist() {
-  const [currArtist, setCurrArtist] = useState("XCX");
-  const [currIndex, setCurrIndex] = useState(286);
+  const [currArtist, setCurrArtist] = useState("CHARLI XCX286");
+  const [currWeek, setCurrWeek] = useState(286);
   const [currArtistData, setCurrArtistData] = useState();
 
   useEffect(() => {
@@ -13,7 +14,7 @@ function Artist() {
     const fetchData = async () => {
       setTimeout(async () => {
         try {
-          const artistData = await fetch(`/getArtistStats?ticker=${currArtist}&index=${currIndex}`,
+          const artistData = await fetch(`/getArtistStats?nameindex=${currArtist}`,
             { signal: abortController.signal });
           const artistJSON = await artistData.json();
           setCurrArtistData(artistJSON);
@@ -32,22 +33,22 @@ function Artist() {
     return () => {
       abortController.abort();
     };
-  }, [currArtist]);
+  }, [currArtist, currWeek]);
 
   return (
     <section id="artist-view">
       <h1 className="section-title">Artist View</h1>
-      <Menu currArtist = {currArtist} setCurrArtist = {setCurrArtist}/>
+      <ArtistMenu currArtist = {currArtist} setCurrArtist = {setCurrArtist} currWeek = {currWeek}/>
+      <WeekMenuArtist currWeek = {currWeek} setCurrWeek = {setCurrWeek}/>
       <> { currArtistData && currArtistData.numSongs !== 0 ?
       <section id="artist-data">
-        <h2>PROFILE: {currArtistData.artist}</h2>
+        <h2>{currArtistData.name}</h2>
         <section id="artist-profile">
           <ul>
-            <li>Ticker: {currArtistData.ticker}</li>
-            <li>Total Songs: {currArtistData.songs.length}</li>
             <li>Total Points: {currArtistData.currentPoints}</li>
             <li>Total Number Ones: {currArtistData.currentNumberOnes}</li>
             <li>Total Listeners: {currArtistData.currentListeners}</li>
+            <li>Songs in Top 10000: {currArtistData.songs.length}</li>
           </ul>
         </section>
         <section id="top-songs">
@@ -62,7 +63,7 @@ function Artist() {
         </section>
       </section> : 
       <section>
-        <p>ARTIST DATA FAILED TO LOAD (TRY AGAIN IN A FEW SECONDS)</p>
+        <p>NO ARTIST DATA FOUND</p>
       </section>
       }
       </>
