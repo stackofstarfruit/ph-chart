@@ -63,7 +63,7 @@ function Artist() {
         </section>
       </section> : 
       <section>
-        <p>NO ARTIST DATA FOUND</p>
+        <p>NO ARTIST DATA FOUND FOR THIS WEEK</p>
       </section>
       }
       </>
