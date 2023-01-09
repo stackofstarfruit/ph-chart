@@ -15,7 +15,6 @@ function WeekMenu({currWeek, setCurrWeek}) {
   function handleChange(event) { // whole object of selected option 
     console.log(event.label);
     setCurrWeek(event.value);
-    setCurrArtist("CHARLI XCX" + currWeek);
   };
 
   return (
