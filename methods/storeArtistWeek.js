@@ -37,20 +37,20 @@ async function storeArtistWeek(rows, index) {
         if (artistList.has(currArtist)) {
           artistData = artistList.get(currArtist);
         }
-        if (currPoints && currNumberOnes && currListeners && currListeners > 1) {
-            artistData.numSongs = artistData.numSongs + 1;
-            artistData.songs.push(currSongData);
-            artistData.points += currPoints;
-            artistData.numberOnes += currNumberOnes;
-            artistData.listeners += currListeners;
+        if (artistData && currPoints && currNumberOnes && currListeners && currListeners > 1) {
+          artistData.numSongs = artistData.numSongs + 1;
+          artistData.songs.push(currSongData);
+          artistData.points += currPoints;
+          artistData.numberOnes += currNumberOnes;
+          artistData.listeners += currListeners;
         }
         artistList.set(currArtist, artistData);
       }
     }
     let artistArray = [];
-    artistList.forEach(function(val, key){
+    artistList.forEach(function(val, key) {
       artistArray.push(val);
-      if (key) {
+      if (key && val && val.points >= 10) {
         const artist = new ArtistModel({ 
           nameindex: key + index,
           index: index,

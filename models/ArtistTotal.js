@@ -1,13 +1,10 @@
 const mongoose = require('mongoose');
 
 const artist = new mongoose.Schema({
-  ticker: {
-    type: String,
-    required: true,
-  },
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   rank: {
     type: Number,

@@ -12,6 +12,7 @@ const { parsePastes } = require("../methods/parsePastes");
 const { processComments } = require("../methods/processComments");
 const { wikiPageToHTML } = require("../methods/wikiPageToHTML");
 const { getDate } = require("../methods/getDate");
+const { storeArtistWeek } = require('./storeArtistWeek');
 
 async function addCharts(r, chartPosts, chartSize) {
   for(let i = 0; i < chartPosts.length; i++) {
@@ -53,28 +54,31 @@ async function addCharts(r, chartPosts, chartSize) {
       myChart.save();
     } else {
       let albumData = "ALBUMS EMPTY";
-      if(i != 19) {
-        albumData = await parsePastes(pastes, 1, titleInfo);
-      } else {
-        console.log(title);
-        console.log(parsedDate);
-        console.log(redditURL);
-        console.log(songData);
-        console.log(albumData);
-        console.log(fullCharts);
-      }
-      const myChart = new ChartModel({
-        index: currIndex,
-        code: chartPosts[i],
-        title: title,
-        date: parsedDate, 
-        redditURL: redditURL,
-        songData: songData,
-        albumData: albumData,
-        fullChartURL: fullCharts
-      });
-      await myChart.save();
-    }}
-    console.log("DONE ADDING CHARTS");
+    }
+    if(i != 19) {
+      albumData = await parsePastes(pastes, 1, titleInfo);
+    } else {
+      console.log(title);
+      console.log(parsedDate);
+      console.log(redditURL);
+      console.log(songData);
+      console.log(albumData);
+      console.log(fullCharts);
+    }
+    const myChart = new ChartModel({
+      index: currIndex,
+      code: chartPosts[i],
+      title: title,
+      date: parsedDate, 
+      redditURL: redditURL,
+      songData: songData,
+      albumData: albumData,
+      fullChartURL: fullCharts
+    });
+    await myChart.save();
+    await storeFullChart(myChart.index)
+      .then(storeArtistWeek(myChart.fullChart, myChart.index));
+  }
+  console.log("DONE ADDING CHARTS");
 }
 exports.addCharts = addCharts;

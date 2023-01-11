@@ -4,7 +4,7 @@ import ArtistMenu from "./ArtistMenu";
 import WeekMenuArtist from "./WeekMenuArtist";
 
 function Artist() {
-  const [currArtist, setCurrArtist] = useState("CHARLI XCX286");
+  const [currArtist, setCurrArtist] = useState("CHARLI XCX");
   const [currWeek, setCurrWeek] = useState(286);
   const [currArtistData, setCurrArtistData] = useState();
 
@@ -14,7 +14,7 @@ function Artist() {
     const fetchData = async () => {
       setTimeout(async () => {
         try {
-          const artistData = await fetch(`/getArtistStats?nameindex=${currArtist}`,
+          const artistData = await fetch(`/getArtistStats?nameindex=${currArtist + currWeek}`,
             { signal: abortController.signal });
           const artistJSON = await artistData.json();
           setCurrArtistData(artistJSON);
@@ -22,7 +22,7 @@ function Artist() {
             if(error.name === 'AbortError') {
               // no error
             } else {
-              console.error();
+              setCurrArtistData("");
             }
           }
       }, Math.round(Math.random() * 100))
@@ -66,6 +66,7 @@ function Artist() {
         <p>NO ARTIST DATA FOUND FOR THIS WEEK</p>
       </section>
       }
+      <ArtistGraph artistName={currArtist}/>
       </>
     </section>
   )
