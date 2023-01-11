@@ -6,7 +6,7 @@ import UpdateButton from './UpdateButton'
 function Chart() {
   const [currChart, setCurrChart] = useState(0);
   const [chartType, setChartType] = useState(0);
-  const [currWeek, setCurrWeek] = useState(287);
+  const [currWeek, setCurrWeek] = useState(289);
   const [currChartHTML, setCurrChartHTML] = useState();
 
   useEffect(() => {
@@ -68,14 +68,14 @@ function Chart() {
               value="1"
               name="chartType"
               onChange={handleChange}
-            />Get Albums
+            />Get Albums (deprecated, displays users signed up for the charts as of 01/09/2023)
             <br />
             <input 
               type="radio"
               value="2"
               name="chartType"
               onChange={handleChange}
-            />Get ALL Songs (warning: experimental, only works after 12/14/2020)
+            />Get ALL Songs (only works after 12/14/2020)
           <br />
           <UpdateButton />
         </form>

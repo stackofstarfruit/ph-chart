@@ -11,7 +11,6 @@ const { off } = require('../models/Artist');
 const ArtistModel = require('../models/Artist');
 
 async function storeArtistWeek(rows, index) {
-  console.log(index);
   if (rows && rows[0]) {
     let artistList = new Map();
     for (let i = 0; i < 10000; i++) {

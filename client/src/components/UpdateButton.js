@@ -1,7 +1,7 @@
 function UpdateButton() {
   return (
     <button className="fancy-button" onClick={() => updateCharts()}>
-      UPDATE!
+      UPDATE CHARTS!
     </button>
   );
 }

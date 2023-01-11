@@ -5,7 +5,7 @@ import WeekMenuArtist from "./WeekMenuArtist";
 
 function Artist() {
   const [currArtist, setCurrArtist] = useState("CHARLI XCX");
-  const [currWeek, setCurrWeek] = useState(286);
+  const [currWeek, setCurrWeek] = useState(289);
   const [currArtistData, setCurrArtistData] = useState();
 
   useEffect(() => {
@@ -66,7 +66,6 @@ function Artist() {
         <p>NO ARTIST DATA FOUND FOR THIS WEEK</p>
       </section>
       }
-      <ArtistGraph artistName={currArtist}/>
       </>
     </section>
   )
