@@ -13,12 +13,11 @@ function ArtistMenu({currArtist, setCurrArtist, currWeek}) {
   }, [currWeek]);
 
   function handleChange(event) { // whole object of selected option 
-    console.log(event.label);
     setCurrArtist(event.value);
   };
 
   return (
-    <section id="artist-selector">
+    <section class="select-region">
       <Select 
         options={currArtistData}
         value={currArtistData.find(obj => obj.value === currArtist)}

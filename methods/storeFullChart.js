@@ -15,7 +15,6 @@ async function storeFullChart(index) {
   console.log(index);
   ChartModel.findOne({index: index}, async (err, docs) => {
     if (docs.fullChartURL && docs.fullChartURL[0] && (docs.fullChartURL[0].includes("pastebin") || docs.fullChartURL[0].includes("paste.ee"))) {
-      console.log(index);
       let fullChartURL = docs.fullChartURL[0].replace(/\/p\//, "/r/");
       fullChartURL = fullChartURL.replace(/pastebin.com\//, "pastebin.com\/raw\/");
       await fetch(fullChartURL)
@@ -25,7 +24,6 @@ async function storeFullChart(index) {
           let titleInfo = "<h2><a href=" + docs.redditURL + ">" + docs.title + "</a></h2>";
           let rowsHTML = CSVtoHTML(res, titleInfo);
           if (rows[0].includes("Rank")) {
-            console.log("SAVING STUFF");
             docs.fullChart = rows;
             docs.fullChartHTML = rowsHTML;
           } else {

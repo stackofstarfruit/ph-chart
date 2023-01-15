@@ -9,6 +9,7 @@
 
 const { off } = require('../models/Artist');
 const ArtistModel = require('../models/Artist');
+const ArtistTotalModel = require('../models/ArtistTotal');
 
 async function storeArtistWeek(rows, index) {
   if (rows && rows[0]) {
@@ -60,6 +61,21 @@ async function storeArtistWeek(rows, index) {
           songs: val.songs
         });
         artist.save();
+        setTimeout(
+          function() {
+            ArtistTotalModel.find({name: key}, async (err, docs) => {
+              if(!docs && val.points >= 250) {
+                const artistTotal = new ArtistTotalModel({ 
+                  name: key,
+                  totalPoints: val.points,
+                  totalNumberOnes: val.numberOnes,
+                  totalListeners: val.listeners
+                });
+                artistTotal.save();
+              }
+            })
+          }
+        , 500);
       }
     });
     return artistArray;

@@ -44,8 +44,6 @@ async function storeArtist(rows, ticker, artistName, index) {
         }
       }
     }
-    console.log(index);
-    console.log(artistName);
     artistData.numSongs = artistData.songs.length;
     const artist = new ArtistModel({ 
       nameindex: artistName + index,

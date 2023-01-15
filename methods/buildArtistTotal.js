@@ -29,7 +29,6 @@ async function buildArtistTotal(artistName) {
       numberOnesByWeek: numberOnesByWeek,
       listenersByWeek: listenersByWeek
     });
-    console.log(artistTotal);
     artistTotal.save();
   });
 }

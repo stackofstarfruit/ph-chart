@@ -13,13 +13,12 @@ function WeekMenu({currWeek, setCurrWeek}) {
   }, [currWeek]);
 
   function handleChange(event) { // whole object of selected option 
-    console.log(event.label);
     setCurrWeek(event.value);
   };
 
   return (
-    <section id="artist-selector">
-      <Select 
+    <section class="select-region">
+      <Select
         options={weekData}
         value={weekData.find(obj => obj.value === currWeek)}
         onChange={handleChange}

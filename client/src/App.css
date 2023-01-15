@@ -47,8 +47,7 @@ table {
 
 #switch-modes-button {
   margin-top: 3%;
-  width: 15%;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
@@ -103,8 +102,8 @@ button:hover::after, button:focus::after {
   }
 }
 
-#artist-selector {
-  margin: auto;
+.select-region {
+  display: flex;
   color: black;
-  max-width: 20%;
+  justify-content: center;
 }

@@ -19,7 +19,6 @@ async function storeSong(currArtist, currPoints, currNumberOnes, currListeners, 
   if (artistList.has(currArtist)) {
     artistData = artistList.get(currArtist);
   }
-  console.log(currArtist + ": " + artistData.songs);
   if (currPoints && currNumberOnes && currListeners && currListeners > 1) {
     artistData.numSongs = artistData.numSongs + 1;
     artistData.songs.push(currSongData);

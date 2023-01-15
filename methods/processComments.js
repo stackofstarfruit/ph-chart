@@ -12,11 +12,9 @@
  * @returns {String} comment containing full chart
  */
 async function processComments(threadComments) {
-  console.log("running");
   for (let i = 0; i < threadComments.length; i++) {
     const comm = threadComments[i];
     if(testComment(comm)) {
-      console.log(comm.author.name);
       return threadComments[i].body_html;
     } else {
       for (let j = 0; j < comm.replies.length; j++) {
