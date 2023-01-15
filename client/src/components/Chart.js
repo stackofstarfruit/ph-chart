@@ -68,7 +68,7 @@ function Chart() {
               value="1"
               name="chartType"
               onChange={handleChange}
-            />Get Albums (deprecated, displays users signed up for the charts as of 01/09/2023)
+            />Get Albums (deprecated, displays users signed up for the charts after 01/02/2023)
             <br />
             <input 
               type="radio"
