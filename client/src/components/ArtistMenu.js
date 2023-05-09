@@ -16,7 +16,7 @@ function ArtistMenu({ currArtist, setCurrArtist, currWeek }) {
           setInitialRender(false);
         }
       });
-  }, [currWeek, initialRender]);
+  }, [currWeek, setCurrArtist, initialRender]);
 
   function handleChange(event) {
     // whole object of selected option
