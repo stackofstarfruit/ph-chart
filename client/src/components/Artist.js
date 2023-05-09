@@ -1,32 +1,60 @@
 import { useEffect, useState } from "react";
-import '../App.css';
+import "../App.css";
 import ArtistMenu from "./ArtistMenu";
-import WeekMenuArtist from "./WeekMenuArtist";
+import WeekMenu from "./WeekMenu";
 
 function Artist() {
-  const [currArtist, setCurrArtist] = useState("CHARLI XCX");
-  const [currWeek, setCurrWeek] = useState(289);
-  const [currArtistData, setCurrArtistData] = useState();
+  const [currArtist, setCurrArtist] = useState(null);
+  const [currWeek, setCurrWeek] = useState(null);
+  const [weekData, setWeekData] = useState(null);
+  const [currArtistData, setCurrArtistData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("/weeks");
+      const data = await res.json();
+      const reversedData = data.reverse();
+      setWeekData(reversedData);
+      setCurrWeek(reversedData[0].value);
+      setCurrArtist("CHARLI XCX");
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("/artists");
+      const data = await res.json();
+      setCurrArtist(data[0].value);
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const abortController = new AbortController();
-    
+
     const fetchData = async () => {
-      setTimeout(async () => {
-        try {
-          const artistData = await fetch(`/getArtistStats?nameindex=${currArtist + currWeek}`,
-            { signal: abortController.signal });
-          const artistJSON = await artistData.json();
-          setCurrArtistData(artistJSON);
+      if (currArtist) {
+        setTimeout(async () => {
+          try {
+            const artistData = await fetch(
+              `/getArtistStats?nameindex=${currArtist + currWeek}`,
+              { signal: abortController.signal }
+            );
+            const artistJSON = await artistData.json();
+            setCurrArtistData(artistJSON);
           } catch (error) {
-            if(error.name === 'AbortError') {
+            if (error.name === "AbortError") {
               // no error
             } else {
               setCurrArtistData("");
             }
           }
-      }, Math.round(Math.random() * 100))
-    }
+        }, Math.round(Math.random() * 100));
+      }
+    };
 
     fetchData();
 
@@ -38,8 +66,20 @@ function Artist() {
   return (
     <section id="artist-view">
       <h1 className="section-title">Artist View</h1>
-      <ArtistMenu currArtist = {currArtist} setCurrArtist = {setCurrArtist} currWeek = {currWeek}/>
-      <WeekMenuArtist currWeek = {currWeek} setCurrWeek = {setCurrWeek}/>
+      {currArtist ? (
+        <ArtistMenu
+          currArtist={currArtist}
+          setCurrArtist={setCurrArtist}
+          currWeek={currWeek}
+        />
+      ) : (
+        <p>Loading...</p>
+      )}
+      {weekData && currWeek ? (
+        <WeekMenu currWeek={currWeek} setCurrWeek={setCurrWeek} weekData={weekData} />
+      ) : (
+        <p>Loading...</p>
+      )}
       <> { currArtistData && currArtistData.numSongs !== 0 ?
       <section id="artist-data">
         <h2>{currArtistData.name}</h2>

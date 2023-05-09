@@ -7,8 +7,8 @@ function Chart() {
   const [currChart, setCurrChart] = useState(0);
   const [chartType, setChartType] = useState(0);
   const [currWeek, setCurrWeek] = useState(null);
-  const [currChartHTML, setCurrChartHTML] = useState();
   const [weekData, setWeekData] = useState(null);
+  const [currChartHTML, setCurrChartHTML] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
