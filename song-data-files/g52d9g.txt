@@ -1,0 +1,52 @@
+Rank|Song|Total Points|Number Ones|Total Listeners
+---|---|---|---|---|---
+1|Charli XCX - Forever|4209.0|147|366
+2|Dua Lipa - Levitating|1763.5|20|217
+3|Dua Lipa - Break My Heart|1735.5|12|224
+4|Selena Gomez - Boyfriend|1522.0|32|157
+5|Dua Lipa - Physical|1222.5|3|176
+6|Dua Lipa - Cool|1156.0|5|166
+7|Dua Lipa - Hallucinate|1151.5|2|165
+8|Dua Lipa - Don't Start Now|1096.5|5|157
+9|Dua Lipa - Pretty Please|1010.0|2|157
+10|Selena Gomez - Souvenir|1005.0|14|110
+11|Dua Lipa - Love Again|894.0|2|138
+12|Twenty One Pilots - Level Of Concern|749.0|19|69
+13|Doja Cat - Say So|702.0|8|91
+14|Phoebe Bridgers - Kyoto|666.0|18|67
+15|Dua Lipa - Future Nostalgia|645.5|2|105
+16|The Strokes - Brooklyn Bridge To Chorus|536.0|9|60
+17|Troye Sivan - Take Yourself Home|520.0|10|64
+18|100 gecs - gec 2 Ü (Remix) (feat. Dorian Electra)|515.5|7|58
+19|The Strokes - The Adults Are Talking|512.5|5|57
+20|The Weeknd - In Your Eyes|497.5|4|76
+21|Selena Gomez - She|491.5|3|68
+22|Doja Cat - Boss Bitch|453.5|5|60
+23|The Weeknd - Blinding Lights|443.0|4|73
+24|Dua Lipa - Good In Bed|413.0|1|77
+25|The Strokes - Selfless|399.5|1|50
+26|Apink - Dumhdurum|376.0|12|32
+27|Taylor Swift - Cruel Summer|365.5|4|55
+28|Rina Sawayama - Xs|343.5|1|51
+29|Lady Gaga - Stupid Love|339.5|1|56
+30|The Strokes - Bad Decisions|332.0|2|44
+31|The Strokes - Eternal Summer|295.5|1|43
+32|ITZY - WANNABE|286.0|4|31
+33|Megan Thee Stallion - Savage|278.0|3|40
+34|Selena Gomez - Rare|263.5|0|46
+35|The Strokes - At The Door|256.5|2|40
+36|Dua Lipa - Boys Will Be Boys|254.5|1|55
+37|100 gecs - ringtone (Remix) (feat. Charli XCX, Rico Nasty, Kero Kero Bonito)|254.0|1|35
+38|(G)I-DLE - Oh my god|250.0|5|23
+39|SAINt JHN - Roses (Imanbek Remix)|232.0|1|35
+40|Phoebe Bridgers - Garden Song|229.0|1|26
+41|Selena Gomez - Look At Her Now|222.5|0|40
+42|Rina Sawayama - Bad Friend|213.0|0|29
+43|Drake - Toosie Slide|204.0|1|29
+44|The Weeknd - After Hours|201.5|0|32
+45|Little Mix - Break Up Song|200.0|2|31
+46|The Strokes - Ode To The Mets|196.5|1|33
+47|The Weeknd - Hardest To Love|195.5|1|30
+48|Selena Gomez - Lose You To Love Me|193.5|0|33
+49|Selena Gomez - Crowded Room (feat. 6LACK)|193.0|1|37
+50|The Weeknd - Save Your Tears|192.0|0|36

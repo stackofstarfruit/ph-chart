@@ -1,0 +1,52 @@
+Rank|Song|Total Points|Number Ones|Total Listeners
+---|---|---|---|---|---
+1|Dua Lipa - Don't Start Now|1132.5|13|136
+2|Billie Eilish - Everything I Wanted|1129.0|16|126
+3|Tinashe - Hopscotch|906.5|9|96
+4|Tinashe - Save Room for Us (feat. MAKJ)|879.5|5|97
+5|Rina Sawayama - STFU!|877.5|18|92
+6|Harry Styles - Watermelon Sugar|791.0|7|93
+7|Tinashe - Perfect Crime|652.0|7|69
+8|Kesha - My Own Dance|644.0|11|71
+9|Tinashe - Life's Too Short|605.5|5|66
+10|The Weeknd - Heartless|581.5|14|66
+11|Maggie Rogers - Love you for a long time|580.5|14|60
+12|Taylor Swift - Cruel Summer|544.5|4|74
+13|Tinashe - Die A Little Bit|538.0|5|68
+14|Tinashe - Feelings|510.5|0|68
+15|Tinashe - Link Up|481.0|6|58
+16|Tinashe - Stormy Weather|469.0|0|64
+17|Tinashe - Cash Race|447.5|1|53
+18|Hannah Diamond - Concrete Angel|447.5|7|52
+19|Taylor Swift - Lover|434.0|2|62
+20|Hannah Diamond - Love Goes On|403.0|3|55
+21|Taylor Swift - Lover (First Dance Remix)|388.5|10|43
+22|Tinashe - Know Better|386.0|4|48
+23|Tinashe - Story Of Us|380.5|0|55
+24|Selena Gomez - Lose You To Love Me|353.0|4|44
+25|Harry Styles - Lights Up|351.5|4|40
+26|Idina Menzel - Into The Unknown (feat. AURORA)|349.5|3|35
+27|Caroline Polachek - So Hot You're Hurting My Feelings|329.5|6|44
+28|Taylor Swift - The Man|324.5|1|41
+29|Hannah Diamond - Shy|321.5|5|43
+30|Camila Cabello - Living Proof|311.0|4|33
+31|Hannah Diamond - The Ending|309.5|2|45
+32|Hannah Diamond - Invisible|304.5|1|41
+33|Kesha - Raising Hell (feat. Big Freedia)|286.5|2|36
+34|Hannah Diamond - Never Again|274.5|0|41
+35|Hannah Diamond - Reflections|269.0|2|40
+36|Charli XCX & Christine and The Queens - Gone|262.0|4|43
+37|Idina Menzel & Evan Rachel Wood - Show Yourself|258.5|7|24
+38|Tinashe & G-Eazy - So Much Better|257.0|2|34
+39|HAIM - Now I'm In It|252.5|2|34
+40|FKA twigs - Home With You|252.0|3|34
+41|FKA twigs - Cellophane|250.0|2|36
+42|Taylor Swift - Beautiful Ghosts (From The Motion Picture "Cats")|249.0|5|31
+43|Charli XCX - Next Level Charli|248.0|1|35
+44|Post Malone - Circles|237.5|2|32
+45|Nasty Cherry - WIN|237.5|3|26
+46|Hannah Diamond - Fade Away|235.5|1|33
+47|HAIM - Hallelujah|227.0|2|32
+48|FKA twigs - Sad Day|223.0|0|36
+49|Selena Gomez - Look At Her Now|220.0|2|32
+50|MAMAMOO - HIP|217.5|6|20

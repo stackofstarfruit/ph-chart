@@ -1,0 +1,52 @@
+Rank|Song|Total Points|Number Ones|Total Listeners
+---|---|---|---|---|---
+1|Dua Lipa - Don't Start Now|5356.5|201|432
+2|HAIM - Now I'm In It|1275.0|14|127
+3|Selena Gomez - Lose You To Love Me|915.0|12|104
+4|Frank Ocean - In My Room|773.0|19|72
+5|Selena Gomez - Look At Her Now|727.5|5|91
+6|Caroline Polachek - So Hot You're Hurting My Feelings|696.5|7|84
+7|Kesha - Raising Hell (feat. Big Freedia)|673.0|1|82
+8|Taylor Swift - Cruel Summer|629.0|3|83
+9|Y2K, bbno$, Enrique Iglesias & Carly Rae Jepsen - Lalala (Remix)|622.5|8|60
+10|The Cast Of RuPaul's Drag Race UK - Break Up Bye Bye - Frock Destroyers Version|488.5|14|47
+11|Ariana Grande - Bad To You (with Normani & Nicki Minaj)|478.5|5|52
+12|FKA twigs - Sad Day|432.5|5|44
+13|Ariana Grande - How I Look on You|403.0|8|46
+14|Harry Styles - Lights Up|382.0|3|52
+15|Charli XCX & Christine and The Queens - Gone|349.0|1|55
+16|La Roux - International Woman Of Leisure|330.0|3|37
+17|Charli XCX - Next Level Charli|327.5|1|49
+18|Tinashe - Die A Little Bit|327.5|3|38
+19|Hannah Diamond - Invisible|317.0|6|37
+20|Tame Impala - It Might Be Time|310.0|4|38
+21|Katy Perry - Harleys in Hawaii|309.0|3|41
+22|Taylor Swift - Lover|306.5|1|47
+23|Sam Smith - I Feel Love|292.5|1|39
+24|Post Malone - Circles|292.5|3|37
+25|FKA twigs - Home With You|282.0|3|34
+26|Caroline Polachek - Hit Me Where it Hurts|273.5|2|39
+27|Taylor Swift - Death by a Thousand Cuts|253.0|2|36
+28|The 1975 - Frail State Of Mind|230.0|1|25
+29|Charli XCX - Click (feat. Kim Petras and Slayyyter) (No Boys Remix)|219.0|0|32
+30|Caroline Polachek - Pang|217.0|1|33
+31|Lizzo - Good as Hell (feat. Ariana Grande) (Remix)|212.0|1|32
+32|FKA twigs - Cellophane|208.0|1|24
+33|Taylor Swift - I Think He Knows|206.5|0|35
+34|Ariana Grande - Got her own (with victoria monÃ©t)|201.0|3|28
+35|Taylor Swift - Paper Rings|198.5|1|32
+36|Kim Petras - Icy|194.5|0|26
+37|Conan Gray - Maniac|193.5|2|24
+38|Mariah Carey - All I Want for Christmas Is You|190.5|3|20
+39|Taylor Swift - Cornelia Street|188.5|0|33
+40|King Princess - Hit The Back|185.0|2|26
+41|Charli XCX - Shake It (feat. Big Freedia, CupcakKe, Brooke Candy and Pabllo Vittar)|184.5|1|24
+42|Kanye West - Follow God|181.0|1|21
+43|Caroline Polachek - Ocean Of Tears|180.5|1|29
+44|Tones And I - Dance Monkey|180.5|0|23
+45|Kim Petras - There Will Be Blood|179.5|1|30
+46|Charli XCX - White Mercedes|178.0|0|30
+47|Ariana Grande - Nobody (with Chaka Khan)|177.0|0|32
+48|Taylor Swift - Afterglow|175.5|1|27
+49|Caroline Polachek - Door|174.0|0|30
+50|Taylor Swift - Miss Americana & The Heartbreak Prince|171.5|0|35

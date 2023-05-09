@@ -1,0 +1,52 @@
+Rank|Song|Total Points|Number Ones|Total Listeners
+---|---|---|---|---|---
+1|Taylor Swift - All Too Well (10 Minute Version) (Taylor's Version) (From The Vault)|5978.0|170|544
+2|Taylor Swift - Message in a Bottle (Taylor's Version) (From The Vault)|3417.0|37|349
+3|Taylor Swift - Nothing New (feat. Phoebe Bridgers) (Taylor's Version) (From The Vault)|2981.5|28|332
+4|Taylor Swift - Red (Taylor's Version)|2647.0|17|364
+5|Taylor Swift - State Of Grace (Taylor's Version)|2534.5|5|335
+6|Taylor Swift - I Bet You Think About Me (feat. Chris Stapleton) (Taylor's Version) (From The Vault)|2194.0|14|266
+7|Taylor Swift - The Very First Night (Taylor's Version) (From The Vault)|2127.5|20|241
+8|Taylor Swift - Better Man (Taylor's Version) (From The Vault)|1997.5|10|248
+9|Taylor Swift - All Too Well (Taylor's Version)|1974.5|11|285
+10|Taylor Swift - Babe (Taylor's Version) (From The Vault)|1909.0|10|245
+11|Taylor Swift - Treacherous (Taylor's Version)|1837.5|6|278
+12|Taylor Swift - I Knew You Were Trouble (Taylor's Version)|1727.0|3|272
+13|Taylor Swift - Forever Winter (Taylor's Version) (From The Vault)|1701.0|13|212
+14|Silk Sonic - Smokin Out The Window|1608.0|15|185
+15|Taylor Swift - Girl at Home (Taylor's Version)|1383.0|11|198
+16|Taylor Swift - 22 (Taylor's Version)|1345.0|5|224
+17|Charli XCX - New Shapes (feat. Christine and The Queens & Caroline Polachek)|1291.0|18|140
+18|Taylor Swift - We Are Never Ever Getting Back Together (Taylor's Version)|1145.0|0|213
+19|Taylor Swift - Holy Ground (Taylor's Version)|1075.0|8|187
+20|Silk Sonic - Fly As Me|1048.0|9|143
+21|Taylor Swift - Run (Taylor's Version) (From The Vault) (feat. Ed Sheeran)|1044.5|2|165
+22|Mitski - The Only Heartbreaker|1013.0|19|100
+23|Silk Sonic - After Last Night (with Thundercat & Bootsy Collins)|986.5|4|141
+24|Avril Lavigne - Bite Me|977.0|17|94
+25|TWICE - Scientist|923.5|21|90
+26|Silk Sonic - Leave The Door Open|834.5|5|120
+27|Taylor Swift - The Last Time (Taylor's Version) (feat. Gary Lightbody)|827.5|1|160
+28|Taylor Swift - Begin Again (Taylor's Version)|799.5|3|147
+29|Taylor Swift - I Almost Do (Taylor's Version)|782.0|1|165
+30|Silk Sonic - Skate|775.0|4|101
+31|Silk Sonic - 777|761.0|1|113
+32|Taylor Swift - Come Back...Be Here (Taylor's Version)|759.0|1|131
+33|ROSALÍA - LA FAMA (with The Weeknd)|711.5|7|76
+34|Silk Sonic - Put On A Smile|710.0|2|113
+35|Silk Sonic - Silk Sonic Intro|702.0|3|103
+36|Taylor Swift - Everything Has Changed (feat. Ed Sheeran) (Taylor's Version)|673.0|2|133
+37|Taylor Swift - The Lucky One (Taylor's Version)|623.5|1|139
+38|Taylor Swift - Sad Beautiful Tragic (Taylor's Version)|617.5|0|137
+39|TWICE - Cruel|586.0|3|73
+40|Taylor Swift - Stay Stay Stay (Taylor's Version)|569.5|0|129
+41|Little Mix - No|564.0|7|60
+42|TWICE - Icon|561.0|7|73
+43|TWICE - Moonlight|560.5|2|69
+44|Taylor Swift - Starlight (Taylor's Version)|557.0|2|128
+45|Silk Sonic - Blast Off|550.0|5|90
+46|Charli XCX - Good Ones|499.5|4|68
+47|Taylor Swift - The Moment I Knew (Taylor's Version)|476.5|1|110
+48|Little Mix - Cut You Off|472.0|8|49
+49|TWICE - The Feels|355.0|2|52
+50|TWICE - Last Waltz|354.0|0|51
