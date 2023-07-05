@@ -17,6 +17,8 @@ function getDate(title) {
     title = title.replace("May 16, 2022", "May 9, 2022");
   } else if (title.includes("181,")) {
     title = title.replace("181,", "18,");
+  } else if (title.includes("12*,")) {
+    title = title.replace("12*,", "12,");
   }
   let rawDate = null;
   if (title.match(/\w* \w{1,4},? \d{4}/)) {

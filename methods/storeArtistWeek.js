@@ -48,7 +48,7 @@ async function storeArtistWeek(rows, index) {
       }
     }
     let artistArray = [];
-    artistList.forEach(function(val, key) {
+    for (let [key, val] of artistList) {
       artistArray.push(val);
       if (key && val && val.points >= 10) {
         const artist = new ArtistModel({ 
@@ -60,24 +60,23 @@ async function storeArtistWeek(rows, index) {
           currentListeners: val.listeners,
           songs: val.songs
         });
-        artist.save();
-        setTimeout(
-          function() {
-            ArtistTotalModel.find({name: key}, async (err, docs) => {
-              if(!docs && val.points >= 250) {
-                const artistTotal = new ArtistTotalModel({ 
-                  name: key,
-                  totalPoints: val.points,
-                  totalNumberOnes: val.numberOnes,
-                  totalListeners: val.listeners
-                });
-                artistTotal.save();
-              }
-            })
+        try {
+          await artist.save();
+          const docs = await ArtistTotalModel.find({name: key});
+          if(!docs && val.points >= 250) {
+            const artistTotal = new ArtistTotalModel({ 
+              name: key,
+              totalPoints: val.points,
+              totalNumberOnes: val.numberOnes,
+              totalListeners: val.listeners
+            });
+            await artistTotal.save();
           }
-        , 500);
+        } catch (error) {
+          console.log('Error saving artist data:', error);
+        }
       }
-    });
+    }
     return artistArray;
   } else {
     return "ERROR!";

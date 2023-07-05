@@ -17,7 +17,7 @@ const chart = new mongoose.Schema({
   },
   date: {
     type: Date,
-    required: false,
+    required: true,
     unique: true
   },
   redditURL: {
