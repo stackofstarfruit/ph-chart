@@ -43,6 +43,7 @@ async function storeFullChart(index) {
         } else {
           doc.fullChart = [];
           doc.fullChartHTML = "";
+          console.log("NO FULL CHART DATA FOUND");
         }
         await storeArtistWeek(rows, index);
       } catch (error) {
