@@ -12,7 +12,7 @@ function ArtistMenu({ currArtist, setCurrArtist, currWeek }) {
       .then((res) => {
         setCurrArtistData(res);
         if (initialRender && res && res.length > 0) {
-          setCurrArtist("CHARLI XCX");
+          setCurrArtist("(G)I-DLE");
           setInitialRender(false);
         }
       });

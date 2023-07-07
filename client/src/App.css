@@ -102,6 +102,27 @@ button:hover::after, button:focus::after {
   }
 }
 
+.button-group {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.button-group button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 2px;
+  background-color: #f1f1f1;
+  color: #000;
+  cursor: pointer;
+}
+
+.button-group .active {
+  background-color: #0070f3;
+  color: #fff;
+}
+
 .select-region {
   display: flex;
   color: black;

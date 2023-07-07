@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import "../App.css";
 import ArtistMenu from "./ArtistMenu";
 import WeekMenu from "./WeekMenu";
+import ArtistGraph from "./ArtistGraph";
+import TimePeriodButtons from './TimePeriodButtons';
 
 function Artist() {
   const [currArtist, setCurrArtist] = useState(null);
   const [currWeek, setCurrWeek] = useState(null);
   const [weekData, setWeekData] = useState(null);
   const [currArtistData, setCurrArtistData] = useState(null);
+  const [currGraphData, setCurrGraphData] = useState(null);
+  const [activePeriod, setActivePeriod] = useState('1w');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,7 +20,7 @@ function Artist() {
       const reversedData = data.reverse();
       setWeekData(reversedData);
       setCurrWeek(reversedData[0].value);
-      setCurrArtist("CHARLI XCX");
+      setCurrArtist("(G)I-DLE");
     };
 
     fetchData();
@@ -63,6 +67,56 @@ function Artist() {
     };
   }, [currArtist, currWeek]);
 
+  useEffect(() => {
+    const abortController = new AbortController();
+
+    const fetchData = async () => {
+      if (currArtist) {
+        setTimeout(async () => {
+          try {
+            const artistData = await fetch(
+              `/graphPoints?name=${currArtist}&index=${currWeek}`,
+              { signal: abortController.signal }
+            );
+            const graphData = await artistData.json();
+            const processedGraphData = graphData.map((item) => ({
+              weekIndex: parseInt(item.week, 10) + 1,
+              Points: item.points,
+            })).reverse();
+            setCurrGraphData(processedGraphData);
+          } catch (error) {
+            if (error.name === "AbortError") {
+              // no error
+            } else {
+              setCurrGraphData("");
+            }
+          }
+        }, Math.round(Math.random() * 100));
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      abortController.abort();
+    };
+  }, [currArtist, currWeek]);
+
+  const periodToDataPoints = (period) => {
+    switch (period) {
+      case '1w': return 7;
+      case '1m': return 30;
+      case '3m': return 90;
+      case '6m': return 180;
+      case '1y': return 365;
+      case 'ALL': return currGraphData.length;
+      default: return 7;
+    }
+  };
+
+  const numDataPoints = periodToDataPoints(activePeriod);
+  const finalGraphData = currGraphData ? currGraphData.slice(Math.max(currGraphData.length - numDataPoints, 0)) : [];
+
   return (
     <section id="artist-view">
       <h1 className="section-title">Artist View</h1>
@@ -100,6 +154,17 @@ function Artist() {
             {currArtistData.songs[3] ? <li>#{currArtistData.songs[3].position}: {currArtistData.songs[3].song}</li>:<></>}
             {currArtistData.songs[4] ? <li>#{currArtistData.songs[4].position}: {currArtistData.songs[4].song}</li>:<></>}
           </ul>
+        </section>
+        <section>
+          <ArtistGraph 
+            graphData={finalGraphData}
+            artistName={currArtist}
+            currWeek={currWeek}
+          />
+          <TimePeriodButtons 
+            periods={['1w', '1m', '3m', '6m', '1y', 'ALL']} 
+            onPeriodChange={(period) => setActivePeriod(period)}
+          />
         </section>
       </section> : 
       <section>

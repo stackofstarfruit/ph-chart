@@ -1,13 +1,5 @@
-/*
- * u/bright_baby_blue
- * 02/28/2022
- *
- * This is the server-side JavaScript for the popheads chart, which allows
- * you to make API calls to the full chart.
- */
 "use strict";
 
-const { off } = require('../models/Artist');
 const ArtistModel = require('../models/Artist');
 const ArtistTotalModel = require('../models/ArtistTotal');
 
@@ -26,18 +18,20 @@ async function storeArtistWeek(rows, index) {
         let currNumberOnes = parseInt(rowData[3]);
         let currListeners = parseInt(rowData[4]);
         let currSongData = { "position": currPosition, "song": currSong };
-        let artistData = {
-          "artist": currArtist,
-          "numSongs": 0,
-          "songs": [],
-          "points": 0,
-          "numberOnes": 0,
-          "listeners": 0
-        };
+        let artistData;
         if (artistList.has(currArtist)) {
           artistData = artistList.get(currArtist);
+        } else {
+          artistData = {
+            "artist": currArtist,
+            "numSongs": 0,
+            "songs": [],
+            "points": 0,
+            "numberOnes": 0,
+            "listeners": 0
+          };
         }
-        if (artistData && currPoints && currNumberOnes && currListeners && currListeners > 1) {
+        if (artistData && currPoints && currListeners && currListeners > 1) {
           artistData.numSongs = artistData.numSongs + 1;
           artistData.songs.push(currSongData);
           artistData.points += currPoints;
@@ -47,10 +41,15 @@ async function storeArtistWeek(rows, index) {
         artistList.set(currArtist, artistData);
       }
     }
-    let artistArray = [];
+
+    const promises = [];
+
     for (let [key, val] of artistList) {
-      artistArray.push(val);
       if (key && val && val.points >= 10) {
+        const existingData = await ArtistModel.findOne({ nameindex: key + index });
+        if (existingData) {
+          continue;
+        }
         const artist = new ArtistModel({ 
           nameindex: key + index,
           index: index,
@@ -60,26 +59,33 @@ async function storeArtistWeek(rows, index) {
           currentListeners: val.listeners,
           songs: val.songs
         });
-        try {
-          await artist.save();
-          const docs = await ArtistTotalModel.find({name: key});
-          if(!docs && val.points >= 250) {
-            const artistTotal = new ArtistTotalModel({ 
-              name: key,
-              totalPoints: val.points,
-              totalNumberOnes: val.numberOnes,
-              totalListeners: val.listeners
-            });
-            await artistTotal.save();
-          }
-        } catch (error) {
-          console.log('Error saving artist data:', error);
+
+        promises.push(artist.save().catch(error => console.log('Error saving artist data:', error)));
+
+        if(val.points >= 250) {
+          promises.push(ArtistTotalModel.findOne({name: key}).then(docs => {
+            if(!docs) {
+              const artistTotal = new ArtistTotalModel({ 
+                name: key,
+                totalPoints: val.points,
+                totalNumberOnes: val.numberOnes,
+                totalListeners: val.listeners
+              });
+
+              return artistTotal.save();
+            }
+          }).catch(error => console.log('Error saving total artist data:', error)));
         }
       }
     }
-    return artistArray;
+
+    // Wait for all promises to complete
+    await Promise.all(promises);
+
+    return Array.from(artistList.values());
   } else {
-    return "ERROR!";
+    throw new Error('Rows data is not valid.');
   }
 }
-exports.storeArtistWeek = storeArtistWeek;
+
+module.exports = { storeArtistWeek };
