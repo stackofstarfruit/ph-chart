@@ -7,8 +7,13 @@ function UpdateButton() {
 }
 
 function updateCharts() {
-  fetch("/updateCharts");
-  window.location.reload(false);
+  fetch("/updateCharts")
+    .then(() => {
+      setTimeout(() => {
+        window.location.reload(false);
+      }, 2500);
+    })
+    .catch(error => console.error("An error occurred:", error));
 }
 
 export default UpdateButton;
