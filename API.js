@@ -76,14 +76,8 @@ const ArtistTotalModel = require('./models/ArtistTotal');
 const ChartModel = require('./models/Chart');
 const { addCharts } = require("./methods/addCharts");
 
-// Stored chart HTML is built from scraped Reddit/pastebin content, so it is
-// sanitized on the way out before the client renders it as HTML
-const sanitizeHtml = require('sanitize-html');
-const CHART_HTML_OPTIONS = {
-  allowedTags: ['h2', 'a', 'br', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'p', 'strong', 'em'],
-  allowedAttributes: { a: ['href'], th: ['align'], td: ['align'] },
-  allowedSchemes: ['http', 'https']
-};
+// Stored chart HTML is built from scraped Reddit/pastebin content; the client
+// sanitizes it (DOMPurify) before rendering it as HTML
 const CHART_FIELDS = new Map([
   ['0', 'songData'],
   ['1', 'albumData'],
@@ -226,7 +220,7 @@ app.get('/chart', async (req, res) => {
       res.send("CHART NOT FOUND");
       return;
     }
-    res.send(sanitizeHtml(foundChart[chartField] || "", CHART_HTML_OPTIONS));
+    res.send(foundChart[chartField] || "");
   } catch(error) {
     console.error(error);
     res.status(SERVER_ERROR);

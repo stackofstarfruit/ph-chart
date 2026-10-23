@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
+import DOMPurify from "dompurify";
 import "../App.css";
 import WeekMenu from "./WeekMenu";
+
+// Chart HTML is built server-side from scraped Reddit/pastebin content
+const CHART_HTML_OPTIONS = {
+  ALLOWED_TAGS: ["h2", "a", "br", "table", "thead", "tbody", "tr", "th", "td", "p", "strong", "em"],
+  ALLOWED_ATTR: ["href", "align"]
+};
 
 function Chart() {
   const [currChart, setCurrChart] = useState(0);
@@ -34,7 +41,7 @@ function Chart() {
             { signal: abortController.signal }
           );
           const chartHTML = await weekData.text();
-          setCurrChartHTML(chartHTML);
+          setCurrChartHTML(DOMPurify.sanitize(chartHTML, CHART_HTML_OPTIONS));
         } catch (error) {
           if (error.name === "AbortError") {
             // no error
