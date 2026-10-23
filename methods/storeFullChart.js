@@ -10,6 +10,7 @@
 const ChartModel = require('../models/Chart');
 const { CSVtoHTML } = require('../methods/CSVtoHTML');
 const { storeArtistWeek } = require('../methods/storeArtistWeek');
+const { escapeHTML } = require('../methods/escapeHTML');
 
 async function storeFullChart(index) {
   console.log(index);
@@ -35,7 +36,7 @@ async function storeFullChart(index) {
         const res = await fetch(fullChartURL);
         const resText = await res.text();
         let rows = resText.split("\n");
-        let titleInfo = "<h2><a href=" + doc.redditURL + ">" + doc.title + "</a></h2>";
+        let titleInfo = `<h2><a href="${escapeHTML(doc.redditURL)}">${escapeHTML(doc.title)}</a></h2>`;
         let rowsHTML = CSVtoHTML(resText, titleInfo);
         if (rows[0].includes("Rank")) {
           doc.fullChart = rows;

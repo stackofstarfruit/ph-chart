@@ -7,6 +7,7 @@ const { processComments } = require("../methods/processComments");
 const { wikiPageToHTML } = require("../methods/wikiPageToHTML");
 const { getDate } = require("../methods/getDate");
 const { storeFullChart } = require('./storeFullChart');
+const { escapeHTML } = require('./escapeHTML');
 const { RateLimitError } = require('snoowrap');
 
 async function addCharts(r, chartPosts, chartSize) {
@@ -19,7 +20,7 @@ async function addCharts(r, chartPosts, chartSize) {
         const post = await fetchWithRetry(() => r.getSubmission(postCode).fetch());
         const redditURL = post.url;
         const title = post.title;
-        const titleInfo = `<h2><a href="${post.url}">${post.title}</a></h2>`;
+        const titleInfo = `<h2><a href="${escapeHTML(post.url)}">${escapeHTML(post.title)}</a></h2>`;
         const parsedDate = getDate(title);
         let pastes = ["", ""];
         const postHTML = post.selftext_html;
@@ -70,11 +71,12 @@ async function addCharts(r, chartPosts, chartSize) {
     const results = await Promise.all(operations);
     const validResults = results.filter(result => result != null);
 
-    validResults.forEach(async (chartData) => {
+    // Saved sequentially and awaited, so a refresh isn't "done" until its writes are
+    for (const chartData of validResults) {
       const myChart = new ChartModel(chartData);
       await myChart.save();
       setTimeout(storeFullChart, 5000, chartData.index);
-    });
+    }
 
     console.log("DONE ADDING CHARTS");
   } catch (error) {

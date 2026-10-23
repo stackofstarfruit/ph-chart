@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "../App.css";
 import WeekMenu from "./WeekMenu";
-import UpdateButton from "./UpdateButton";
 
 function Chart() {
   const [currChart, setCurrChart] = useState(0);
@@ -97,8 +96,6 @@ function Chart() {
             name="chartType"
             onChange={handleChange}
           />Get ALL Songs (only works after 12/14/2020)
-          <br />
-          <UpdateButton />
         </form>
         <div dangerouslySetInnerHTML={{ __html: currChartHTML }}></div>
       </section>

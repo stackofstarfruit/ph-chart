@@ -6,6 +6,8 @@
  * you to make API calls to the full chart.
  */
 "use strict";
+const { escapeHTML } = require("./escapeHTML");
+
 /**
  * Turns chart data CSV into block of HTML
  * @param {String} rawPasteData dump of data from pastebin
@@ -17,7 +19,7 @@ function CSVtoHTML(rawPasteData, titleInfo) {
   let output = "";
   for (let i = 0; i < lines.length; i++) {
     output += "<tr><td>"
-      + lines[i].slice(0, -1).split("|").join("</td><td>")
+      + lines[i].slice(0, -1).split("|").map(escapeHTML).join("</td><td>")
       + "</td></tr>";
   }
   output = titleInfo + "<br /><table>" + output + "</table>";

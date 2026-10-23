@@ -19,16 +19,25 @@ const USER_AGENT = process.env.USER_AGENT;
 const USERNAME = process.env.USERNAME;
 const PASSWORD = process.env.PASSWORD;
 const MONGO_CONNECTION_URL = process.env.MONGO_CONNECTION_URL;
+// Shared secret for manually triggering POST /updateCharts (unset = manual trigger disabled)
+const UPDATE_TOKEN = process.env.UPDATE_TOKEN;
 
 // Default port and standard HTTP response codes
 const DEFAULT_PORT = 8000;
 const RESPONSE_OK = 200;
+const ACCEPTED = 202;
 const CLIENT_ERROR = 400;
+const UNAUTHORIZED = 401;
+const NOT_FOUND = 404;
 const SERVER_ERROR = 500;
+
+// Visitor traffic checks Reddit for new charts at most this often
+const REFRESH_INTERVAL_MS = 6 * 60 * 60 * 1000;
 
 // Core Node.js modules
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 
 // Express setup
 const express = require('express');
@@ -67,6 +76,20 @@ const ArtistTotalModel = require('./models/ArtistTotal');
 const ChartModel = require('./models/Chart');
 const { addCharts } = require("./methods/addCharts");
 
+// Stored chart HTML is built from scraped Reddit/pastebin content, so it is
+// sanitized on the way out before the client renders it as HTML
+const sanitizeHtml = require('sanitize-html');
+const CHART_HTML_OPTIONS = {
+  allowedTags: ['h2', 'a', 'br', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'p', 'strong', 'em'],
+  allowedAttributes: { a: ['href'], th: ['align'], td: ['align'] },
+  allowedSchemes: ['http', 'https']
+};
+const CHART_FIELDS = new Map([
+  ['0', 'songData'],
+  ['1', 'albumData'],
+  ['2', 'fullChartHTML']
+]);
+
 // Configuration for snoowrap (Reddit API Wrapper)
 const r = new snoowrap({
   userAgent: USER_AGENT,
@@ -75,6 +98,34 @@ const r = new snoowrap({
   username: USERNAME,
   password: PASSWORD
 });
+
+/**
+ * Parses a week/chart index query parameter.
+ * @param {*} value - Raw query value.
+ * @returns {number|null} The index, or null if it isn't a plain non-negative integer.
+ */
+function parseWeek(value) {
+  if (typeof value !== 'string' || !/^\d{1,6}$/.test(value)) {
+    return null;
+  }
+  return Number(value);
+}
+
+/**
+ * Decodes a query parameter the client double-encodes, without throwing on bad input.
+ * @param {*} value - Raw query value.
+ * @returns {string|null} The decoded string, or null if it isn't a string.
+ */
+function safeDecode(value) {
+  if (typeof value !== 'string') {
+    return null;
+  }
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value; // already decoded (e.g. a literal '%' in the name)
+  }
+}
 
 // Importing methods for deprecated endpoints (commented out)
 /*
@@ -98,29 +149,30 @@ const { storeArtistWeek } = require("./methods/storeArtistWeek");
  */
 app.get('/weeks', async (req, res) => {
   res.type("json");
+  maybeRefreshCharts();
   try {
     let filter = {};
     if (req.query.type == 'artist') {
       filter = { date: {$gte: 182} };
     }
     let weeks = [];
-    ChartModel.find(filter, 'index date', (err, docs) => {
-      for (let i = 0; i < docs.length; i++) {
-        if(docs[i].date) { // Ensure date exists before calling toDateString
-          weeks.push({
-            "value" : docs[i].index,
-            "label" : docs[i].date.toDateString()
-          });
-        } else {
-          console.warn(`Document with index ${docs[i].index} has no date property`);
-        }
+    const docs = await ChartModel.find(filter, 'index date');
+    for (let i = 0; i < docs.length; i++) {
+      if(docs[i].date) { // Ensure date exists before calling toDateString
+        weeks.push({
+          "value" : docs[i].index,
+          "label" : docs[i].date.toDateString()
+        });
+      } else {
+        console.warn(`Document with index ${docs[i].index} has no date property`);
       }
-      res.status(RESPONSE_OK);
-      res.send(weeks);
-    });
+    }
+    res.status(RESPONSE_OK);
+    res.send(weeks);
   } catch(error) {
+    console.error(error);
     res.status(SERVER_ERROR);
-    res.send("COULD NOT FIND POSTS: " + error);
+    res.send("COULD NOT FIND POSTS");
   }
 });
 
@@ -133,20 +185,20 @@ app.get('/weeks', async (req, res) => {
 app.get('/artists', async (req, res) => {
   res.type("json");
   try {
-    ArtistTotalModel.find({}, 'name', (err, docs) => {
-      let artists = [];
-      for (let i = 0; i < docs.length; i++) {
-        artists.push({
-          "value" : docs[i].name,
-          "label" : docs[i].name
-        });
-      }
-      res.status(RESPONSE_OK)
-      res.send(artists);
-    }).sort({ name: 1 });
+    const docs = await ArtistTotalModel.find({}, 'name').sort({ name: 1 });
+    let artists = [];
+    for (let i = 0; i < docs.length; i++) {
+      artists.push({
+        "value" : docs[i].name,
+        "label" : docs[i].name
+      });
+    }
+    res.status(RESPONSE_OK)
+    res.send(artists);
   } catch(error) {
+    console.error(error);
     res.status(SERVER_ERROR);
-    res.send("COULD NOT FIND POSTS: " + error);
+    res.send("COULD NOT FIND POSTS");
   }
 });
 
@@ -160,72 +212,110 @@ app.get('/artists', async (req, res) => {
  */
 app.get('/chart', async (req, res) => {
   res.type("text");
-  if(!req.query.chartNum || !req.query.chartType) {
+  const chartNum = parseWeek(req.query.chartNum);
+  const chartField = CHART_FIELDS.get(req.query.chartType);
+  if (chartNum === null || !chartField) {
     res.status(CLIENT_ERROR);
-    res.send("PARAMETERS NOT FOUND");
+    res.send("INVALID PARAMETERS");
+    return;
   }
-  const chartNum = req.query.chartNum;
-  const chartType = req.query.chartType;
   try {
-    ChartModel.findOne({index: chartNum}, (err, foundChart) => {
-      if (err) {
-        res.status(SERVER_ERROR);
-        res.send(err);
-      }
-      let responseHTML;
-      switch(chartType) {
-        case '0':
-          responseHTML = foundChart.songData;
-          break;
-        case '1':
-          responseHTML = foundChart.albumData;
-          break;
-        case '2':
-          responseHTML = foundChart.fullChartHTML;
-          break;
-        default:
-          res.status(CLIENT_ERROR);
-          res.send("INVALID CHART TYPE");
-          return;
-      }
-      res.send(responseHTML);
-    });
+    const foundChart = await ChartModel.findOne({ index: chartNum }, chartField);
+    if (!foundChart) {
+      res.status(NOT_FOUND);
+      res.send("CHART NOT FOUND");
+      return;
+    }
+    res.send(sanitizeHtml(foundChart[chartField] || "", CHART_HTML_OPTIONS));
   } catch(error) {
+    console.error(error);
     res.status(SERVER_ERROR);
-    res.send(error);
+    res.send("COULD NOT FIND CHART");
   }
 });
 
+// Only one Reddit refresh runs at a time; concurrent callers share it
+let refreshInFlight = null;
+let lastRefreshStarted = 0;
+
 /**
- * Updates charts from Reddit if not already updated.
+ * Pulls any chart posts listed on the popheads wiki that aren't in MongoDB yet.
  *
- * @route GET /updateCharts
- * @returns {string} status - Status of the chart update process.
+ * @returns {Promise<string>} status - Status of the chart update process.
  */
-app.get('/updateCharts', async (req, res) => {
-  res.type('text');
-  try {
-    let chartPageHTML = await r
-      .getSubreddit('popheads')
-      .getWikiPage('index/charts-numberones')
-      .fetch().content_html;
-    let chartPosts = chartPageHTML.match(/(?<=redd.it\/).*(?=..rel)/g); 
-    let chartSize = await ChartModel.count({});
-    console.log(chartPosts.length);
-    console.log(chartSize);
-    if (chartSize == chartPosts.length) {
-      res.status(RESPONSE_OK);
-      res.send("CHART IS ALREADY UP TO DATE");
-    } else {
-      let newChartPosts = chartPosts.slice(chartSize);
-      addCharts(r, newChartPosts, chartSize); // Pass the chartSize to addCharts
-      res.status(RESPONSE_OK);
-      res.send("CHARTS UPDATED SUCCESSFULLY: " + chartPosts.length);
-    }
-  } catch(error) {
-    res.status(SERVER_ERROR);
-    res.send("COULD NOT UPDATE CHARTS: " + error);
+async function pullNewCharts() {
+  let chartPageHTML = await r
+    .getSubreddit('popheads')
+    .getWikiPage('index/charts-numberones')
+    .fetch().content_html;
+  let chartPosts = chartPageHTML.match(/(?<=redd.it\/).*(?=..rel)/g);
+  let chartSize = await ChartModel.countDocuments({});
+  if (chartSize >= chartPosts.length) {
+    return "CHART IS ALREADY UP TO DATE";
   }
+  await addCharts(r, chartPosts.slice(chartSize), chartSize);
+  return "CHARTS UPDATED SUCCESSFULLY: " + chartPosts.length;
+}
+
+/**
+ * Starts a background refresh unless one is already running. Never rejects.
+ */
+function refreshCharts() {
+  if (refreshInFlight) {
+    return;
+  }
+  lastRefreshStarted = Date.now();
+  refreshInFlight = pullNewCharts()
+    .then(status => console.log(status))
+    .catch(error => console.error("COULD NOT UPDATE CHARTS:", error))
+    .finally(() => {
+      refreshInFlight = null;
+    });
+}
+
+/**
+ * Kicks off a background refresh if the last one is older than REFRESH_INTERVAL_MS.
+ * Replaces the old public "UPDATE CHARTS!" button.
+ */
+function maybeRefreshCharts() {
+  if (Date.now() - lastRefreshStarted >= REFRESH_INTERVAL_MS) {
+    refreshCharts();
+  }
+}
+
+/**
+ * Checks the request carries "Authorization: Bearer <UPDATE_TOKEN>".
+ *
+ * @param {Object} req - Express request.
+ * @returns {boolean} Whether the caller may trigger an update.
+ */
+function hasUpdateToken(req) {
+  if (!UPDATE_TOKEN) {
+    return false;
+  }
+  const expected = Buffer.from(`Bearer ${UPDATE_TOKEN}`);
+  const given = Buffer.from(req.get('Authorization') || '');
+  return given.length === expected.length && crypto.timingSafeEqual(given, expected);
+}
+
+/**
+ * Manually starts a chart update from Reddit (runs in the background).
+ *
+ * @route POST /updateCharts
+ * @header Authorization - "Bearer <UPDATE_TOKEN>".
+ * @returns {string} status - Whether the update was started.
+ */
+app.post('/updateCharts', (req, res) => {
+  res.type('text');
+  if (!hasUpdateToken(req)) {
+    res.status(UNAUTHORIZED);
+    res.send("UNAUTHORIZED");
+    return;
+  }
+  const alreadyRunning = refreshInFlight !== null;
+  refreshCharts();
+  res.status(ACCEPTED);
+  res.send(alreadyRunning ? "CHART UPDATE ALREADY RUNNING" : "CHART UPDATE STARTED");
 });
 
 /**
@@ -237,11 +327,12 @@ app.get('/updateCharts', async (req, res) => {
  */
 app.get('/getArtistStats', async (req, res) => {
   res.type("json");
-  if(!req.query.nameindex) {
+  const nameindex = safeDecode(req.query.nameindex);
+  if(!nameindex) {
     res.status(CLIENT_ERROR);
     res.send("ARTIST NOT SPECIFIED");
+    return;
   }
-  let nameindex = decodeURIComponent(req.query.nameindex);
   // checks MongoDB for artist entry
   try {
     const artistEntry = await ArtistModel.findOne({ nameindex: nameindex });
@@ -253,8 +344,9 @@ app.get('/getArtistStats', async (req, res) => {
       res.send(artistEntry.toJSON());
     }
   } catch (error) {
+    console.error(error);
     res.status(SERVER_ERROR);
-    res.send("COULD NOT SCRAPE REDDIT: " + error);
+    res.send("COULD NOT FIND ARTIST");
   }
 });
 
@@ -267,13 +359,21 @@ app.get('/getArtistStats', async (req, res) => {
  * @returns {Object[]} data - An array of objects containing the week number and points for each week.
  */
 app.get('/graphPoints', async (req, res) => {
-  if(!req.query.name || !req.query.index) {
+  const artistName = safeDecode(req.query.name);
+  const currentWeek = parseWeek(req.query.index);
+  if(!artistName || currentWeek === null) {
     res.status(CLIENT_ERROR);
     res.send("ARTIST NOT SPECIFIED");
+    return;
   }
   try {
-    const artistName = decodeURIComponent(req.query.name);
-    const currentWeek = req.query.index;
+    // The loop below allocates one entry per week, so cap it at the newest chart
+    const latestChart = await ChartModel.findOne({}, 'index').sort({ index: -1 });
+    if (!latestChart || currentWeek > latestChart.index) {
+      res.status(CLIENT_ERROR);
+      res.send("WEEK OUT OF RANGE");
+      return;
+    }
     const nameIndices = [];
     for (let i = 0; i < currentWeek; i++) {
       nameIndices.push(`${artistName.toUpperCase()}${currentWeek - i}`);
@@ -294,7 +394,8 @@ app.get('/graphPoints', async (req, res) => {
   
     res.json(data);
   } catch(error) {
-    res.status(500).json({ error: error.toString() });
+    console.error(error);
+    res.status(SERVER_ERROR).json({ error: "COULD NOT BUILD GRAPH" });
   }
 });
 
